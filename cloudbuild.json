@@ -1,0 +1,45 @@
+{
+    "steps": [
+    {
+        "name": "gcr.io/cloud-builders/docker",
+        "args": [
+            "build",
+            "-t",
+            "gcr.io/5horns/my-image",
+            "."
+        ],
+        "timeout": "500s"
+    },
+    {
+            "name": "gcr.io/cloud-builders/docker",
+            "args": [
+                "push",
+                "gcr.io/5horns/my-image",
+            ],
+    },
+    {
+        "name": "gcr.io/cloud-builders/kubectl",
+        "args": [
+            "set",
+            "image",
+            "deployment/my-deployment",
+            "my-container=gcr.io/5horns/my-image"
+        ],
+        "env": [
+            "CLOUDSDK_COMPUTE_ZONE=southamerica-east1-b",
+	    "CLOUDSDK_CONTAINER_CLUSTER=my-cluster"
+        ]
+    }
+    ],
+    "options": {
+        "machineType": "f1-micro"
+    },
+    "timeout": "660s",
+    "tags": [
+        "mytag1",
+        "mytag2"
+    ],
+    "images": [
+        "gcr.io/5horns/myimage"
+    ]
+}
